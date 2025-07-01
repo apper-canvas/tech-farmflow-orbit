@@ -23,6 +23,7 @@ import Button from "@/components/atoms/Button";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
+import PhotoUpload from "@/components/molecules/PhotoUpload";
 import farmService from "@/services/api/farmService";
 import expenseService from "@/services/api/expenseService";
 import { getExpenseTrendsData, getExpensesByCategoryData, getBudgetProgressData } from "@/utils/calculations";
@@ -48,13 +49,14 @@ const Expenses = () => {
   const [filter, setFilter] = useState('all');
   
   // Form state
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     farmId: '',
     category: '',
     amount: '',
     date: new Date().toISOString().split('T')[0],
     description: '',
-    vendor: ''
+    vendor: '',
+    photos: []
   });
   
   const expenseCategories = [
@@ -104,10 +106,11 @@ const Expenses = () => {
     }
     
     try {
-      const expenseData = {
+const expenseData = {
         ...formData,
         farmId: parseInt(formData.farmId),
-        amount: parseFloat(formData.amount)
+        amount: parseFloat(formData.amount),
+        photos: formData.photos || []
       };
       
       if (editingExpense) {
@@ -131,13 +134,14 @@ const Expenses = () => {
   
   const handleEdit = (expense) => {
     setEditingExpense(expense);
-    setFormData({
+setFormData({
       farmId: expense.farmId.toString(),
       category: expense.category,
       amount: expense.amount.toString(),
       date: expense.date,
       description: expense.description,
-      vendor: expense.vendor || ''
+      vendor: expense.vendor || '',
+      photos: expense.photos || []
     });
     setShowForm(true);
   };
@@ -156,13 +160,14 @@ const Expenses = () => {
   };
   
   const resetForm = () => {
-    setFormData({
+setFormData({
       farmId: '',
       category: '',
       amount: '',
       date: new Date().toISOString().split('T')[0],
       description: '',
-      vendor: ''
+      vendor: '',
+      photos: []
     });
     setShowForm(false);
     setEditingExpense(null);
@@ -585,6 +590,13 @@ const Expenses = () => {
                   placeholder="Enter vendor name"
                   value={formData.vendor}
                   onChange={(e) => setFormData(prev => ({ ...prev, vendor: e.target.value }))}
+/>
+                
+                <PhotoUpload
+                  label="Receipt Photos (Optional)"
+                  value={formData.photos}
+                  onChange={(photos) => setFormData(prev => ({ ...prev, photos }))}
+                  maxFiles={3}
                 />
                 
                 <div className="flex gap-3 pt-4">

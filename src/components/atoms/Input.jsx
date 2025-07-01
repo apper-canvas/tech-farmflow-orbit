@@ -11,6 +11,8 @@ const Input = ({
   icon,
   required = false,
   className = '',
+  accept,
+  multiple = false,
   ...props
 }) => {
   return (
@@ -29,11 +31,13 @@ const Input = ({
           </div>
         )}
         
-        <input
+<input
           type={type}
           placeholder={placeholder}
-          value={value}
+          value={type === 'file' ? undefined : value}
           onChange={onChange}
+          accept={type === 'file' ? accept : undefined}
+          multiple={type === 'file' ? multiple : undefined}
           className={`input-field ${icon ? 'pl-10' : ''} ${error ? 'border-error focus:border-error focus:ring-error/20' : ''}`}
           {...props}
         />

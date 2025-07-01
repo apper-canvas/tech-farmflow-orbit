@@ -10,6 +10,7 @@ import Loading from '@/components/ui/Loading';
 import Error from '@/components/ui/Error';
 import Empty from '@/components/ui/Empty';
 import ApperIcon from '@/components/ApperIcon';
+import PhotoUpload from '@/components/molecules/PhotoUpload';
 import cropService from '@/services/api/cropService';
 import farmService from '@/services/api/farmService';
 
@@ -23,14 +24,15 @@ const Crops = () => {
   const [filter, setFilter] = useState('all');
   
   // Form state
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     farmId: '',
     name: '',
     variety: '',
     plantingDate: '',
     expectedHarvest: '',
     location: '',
-    status: 'planted'
+    status: 'planted',
+    photos: []
   });
   
   const cropStatuses = [
@@ -77,11 +79,11 @@ const Crops = () => {
     }
     
     try {
-      const cropData = {
+const cropData = {
         ...formData,
-        farmId: parseInt(formData.farmId)
+        farmId: parseInt(formData.farmId),
+        photos: formData.photos || []
       };
-      
       if (editingCrop) {
         await cropService.update(editingCrop.Id, cropData);
         setCrops(prev => prev.map(crop => 
@@ -103,14 +105,15 @@ const Crops = () => {
   
   const handleEdit = (crop) => {
     setEditingCrop(crop);
-    setFormData({
+setFormData({
       farmId: crop.farmId.toString(),
       name: crop.name,
       variety: crop.variety || '',
       plantingDate: crop.plantingDate,
       expectedHarvest: crop.expectedHarvest || '',
       location: crop.location || '',
-      status: crop.status
+      status: crop.status,
+      photos: crop.photos || []
     });
     setShowForm(true);
   };
@@ -129,14 +132,15 @@ const Crops = () => {
   };
   
   const resetForm = () => {
-    setFormData({
+setFormData({
       farmId: '',
       name: '',
       variety: '',
       plantingDate: '',
       expectedHarvest: '',
       location: '',
-      status: 'planted'
+      status: 'planted',
+      photos: []
     });
     setShowForm(false);
     setEditingCrop(null);
@@ -276,6 +280,13 @@ const Crops = () => {
                   options={cropStatuses}
                   value={formData.status}
                   onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+/>
+                
+                <PhotoUpload
+                  label="Crop Photos (Optional)"
+                  value={formData.photos}
+                  onChange={(photos) => setFormData(prev => ({ ...prev, photos }))}
+                  maxFiles={5}
                 />
                 
                 <div className="flex gap-3 pt-4">
