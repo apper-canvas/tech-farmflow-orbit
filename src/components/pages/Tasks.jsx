@@ -23,14 +23,19 @@ const Tasks = () => {
   const [editingTask, setEditingTask] = useState(null);
   const [filter, setFilter] = useState('all');
   
-  // Form state
+// Form state
   const [formData, setFormData] = useState({
     farmId: '',
     cropId: '',
     title: '',
     type: '',
     dueDate: '',
-    notes: ''
+    notes: '',
+    notificationPreferences: {
+      emailEnabled: false,
+      inAppEnabled: true,
+      reminderTime: '24' // hours before due date
+    }
   });
   
   const taskTypes = [
@@ -69,7 +74,7 @@ const Tasks = () => {
     }
   };
   
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.farmId || !formData.title || !formData.type || !formData.dueDate) {
@@ -77,12 +82,23 @@ const Tasks = () => {
       return;
     }
     
-    try {
+    if (formData.notificationPreferences.reminderTime && 
+        (isNaN(formData.notificationPreferences.reminderTime) || 
+         formData.notificationPreferences.reminderTime < 0)) {
+      toast.error('Please enter a valid reminder time');
+      return;
+    }
+    
+try {
       const taskData = {
         ...formData,
         farmId: parseInt(formData.farmId),
         cropId: formData.cropId ? parseInt(formData.cropId) : null,
-        completed: false
+        completed: false,
+        notificationPreferences: {
+          ...formData.notificationPreferences,
+          reminderTime: parseInt(formData.notificationPreferences.reminderTime)
+        }
       };
       
       if (editingTask) {
@@ -121,7 +137,7 @@ const Tasks = () => {
     }
   };
   
-  const handleEdit = (task) => {
+const handleEdit = (task) => {
     setEditingTask(task);
     setFormData({
       farmId: task.farmId.toString(),
@@ -129,7 +145,12 @@ const Tasks = () => {
       title: task.title,
       type: task.type,
       dueDate: task.dueDate,
-      notes: task.notes || ''
+      notes: task.notes || '',
+      notificationPreferences: {
+        emailEnabled: task.notificationPreferences?.emailEnabled || false,
+        inAppEnabled: task.notificationPreferences?.inAppEnabled || true,
+        reminderTime: task.notificationPreferences?.reminderTime?.toString() || '24'
+      }
     });
     setShowForm(true);
   };
@@ -147,14 +168,19 @@ const Tasks = () => {
     }
   };
   
-  const resetForm = () => {
+const resetForm = () => {
     setFormData({
       farmId: '',
       cropId: '',
       title: '',
       type: '',
       dueDate: '',
-      notes: ''
+      notes: '',
+      notificationPreferences: {
+        emailEnabled: false,
+        inAppEnabled: true,
+        reminderTime: '24'
+      }
     });
     setShowForm(false);
     setEditingTask(null);
@@ -283,7 +309,7 @@ const Tasks = () => {
                     onChange={(e) => setFormData(prev => ({ ...prev, dueDate: e.target.value }))}
                     required
                   />
-                </div>
+</div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -295,6 +321,75 @@ const Tasks = () => {
                     onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
                     className="input-field min-h-[100px] resize-vertical"
                   />
+                </div>
+                
+                {/* Notification Preferences */}
+                <div className="border-t pt-4">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">Notification Preferences</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="inAppEnabled"
+                        checked={formData.notificationPreferences.inAppEnabled}
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
+                          notificationPreferences: {
+                            ...prev.notificationPreferences,
+                            inAppEnabled: e.target.checked
+                          }
+                        }))}
+                        className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                      />
+                      <label htmlFor="inAppEnabled" className="text-sm text-gray-700 flex items-center gap-2">
+                        <ApperIcon name="Bell" className="w-4 h-4" />
+                        In-app notifications
+                      </label>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="emailEnabled"
+                        checked={formData.notificationPreferences.emailEnabled}
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
+                          notificationPreferences: {
+                            ...prev.notificationPreferences,
+                            emailEnabled: e.target.checked
+                          }
+                        }))}
+                        className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                      />
+                      <label htmlFor="emailEnabled" className="text-sm text-gray-700 flex items-center gap-2">
+                        <ApperIcon name="Mail" className="w-4 h-4" />
+                        Email notifications
+                      </label>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      <label className="text-sm text-gray-700 flex items-center gap-2">
+                        <ApperIcon name="Clock" className="w-4 h-4" />
+                        Remind me
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="168"
+                        value={formData.notificationPreferences.reminderTime}
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
+                          notificationPreferences: {
+                            ...prev.notificationPreferences,
+                            reminderTime: e.target.value
+                          }
+                        }))}
+                        className="w-20 px-3 py-1 border border-gray-300 rounded-md text-sm"
+                      />
+                      <span className="text-sm text-gray-600">hours before due date</span>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="flex gap-3 pt-4">

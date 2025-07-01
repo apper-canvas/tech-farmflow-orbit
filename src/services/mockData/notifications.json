@@ -1,0 +1,46 @@
+[
+  {
+    "Id": 1,
+    "taskId": 1,
+    "emailEnabled": true,
+    "inAppEnabled": true,
+    "reminderTime": 24,
+    "isActive": true,
+    "createdAt": "2024-04-15T10:00:00Z",
+    "lastSent": null,
+    "sentCount": 0
+  },
+  {
+    "Id": 2,
+    "taskId": 2,
+    "emailEnabled": false,
+    "inAppEnabled": true,
+    "reminderTime": 12,
+    "isActive": true,
+    "createdAt": "2024-04-16T09:30:00Z",
+    "lastSent": null,
+    "sentCount": 0
+  },
+  {
+    "Id": 3,
+    "taskId": 3,
+    "emailEnabled": true,
+    "inAppEnabled": false,
+    "reminderTime": 48,
+    "isActive": true,
+    "createdAt": "2024-04-14T14:20:00Z",
+    "lastSent": "2024-04-16T14:20:00Z",
+    "sentCount": 1
+  },
+  {
+    "Id": 4,
+    "taskId": 5,
+    "emailEnabled": true,
+    "inAppEnabled": true,
+    "reminderTime": 6,
+    "isActive": true,
+    "createdAt": "2024-04-13T11:45:00Z",
+    "lastSent": null,
+    "sentCount": 0
+  }
+]

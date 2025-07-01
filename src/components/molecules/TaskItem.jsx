@@ -58,7 +58,7 @@ const TaskItem = ({ task, onToggle, onEdit, onDelete, crops, farms }) => {
               <h3 className={`font-semibold ${task.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
                 {task.title}
               </h3>
-              <div className="flex items-center gap-2 mt-1">
+<div className="flex items-center gap-2 mt-1">
                 <Badge variant={getTaskTypeColor(task.type)} size="sm">
                   <ApperIcon name={getTaskTypeIcon(task.type)} className="w-3 h-3 mr-1" />
                   {task.type}
@@ -66,6 +66,18 @@ const TaskItem = ({ task, onToggle, onEdit, onDelete, crops, farms }) => {
                 {isOverdue && (
                   <Badge variant="error" size="sm">
                     Overdue
+                  </Badge>
+                )}
+                {task.notificationPreferences?.inAppEnabled && (
+                  <Badge variant="info" size="sm">
+                    <ApperIcon name="Bell" className="w-3 h-3 mr-1" />
+                    Alert
+                  </Badge>
+                )}
+                {task.notificationPreferences?.emailEnabled && (
+                  <Badge variant="secondary" size="sm">
+                    <ApperIcon name="Mail" className="w-3 h-3 mr-1" />
+                    Email
                   </Badge>
                 )}
               </div>

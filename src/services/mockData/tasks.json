@@ -1,5 +1,5 @@
 [
-  {
+{
     "Id": 1,
     "farmId": 1,
     "cropId": 1,
@@ -7,9 +7,14 @@
     "type": "watering",
     "dueDate": "2024-04-20",
     "completed": false,
-    "notes": "Check soil moisture first"
+    "notes": "Check soil moisture first",
+    "notificationPreferences": {
+      "emailEnabled": true,
+      "inAppEnabled": true,
+      "reminderTime": 24
+    }
   },
-  {
+{
     "Id": 2,
     "farmId": 1,
     "cropId": 2,
@@ -17,9 +22,14 @@
     "type": "fertilizing",
     "dueDate": "2024-04-25",
     "completed": false,
-    "notes": "Use nitrogen-rich fertilizer"
+    "notes": "Use nitrogen-rich fertilizer",
+    "notificationPreferences": {
+      "emailEnabled": false,
+      "inAppEnabled": true,
+      "reminderTime": 12
+    }
   },
-  {
+{
     "Id": 3,
     "farmId": 2,
     "cropId": 4,
@@ -27,9 +37,14 @@
     "type": "harvesting",
     "dueDate": "2024-04-18",
     "completed": false,
-    "notes": "Weather looks good for harvest"
+    "notes": "Weather looks good for harvest",
+    "notificationPreferences": {
+      "emailEnabled": true,
+      "inAppEnabled": false,
+      "reminderTime": 48
+    }
   },
-  {
+{
     "Id": 4,
     "farmId": 3,
     "cropId": 5,
@@ -37,15 +52,25 @@
     "type": "inspection",
     "dueDate": "2024-04-22",
     "completed": true,
-    "notes": "Check for pest damage"
+    "notes": "Check for pest damage",
+    "notificationPreferences": {
+      "emailEnabled": false,
+      "inAppEnabled": false,
+      "reminderTime": 24
+    }
   },
-  {
+{
     "Id": 5,
     "farmId": 1,
     "title": "Maintenance on irrigation system",
     "type": "inspection",
     "dueDate": "2024-04-15",
     "completed": false,
-    "notes": "Replace worn sprinkler heads"
+    "notes": "Replace worn sprinkler heads",
+    "notificationPreferences": {
+      "emailEnabled": true,
+      "inAppEnabled": true,
+      "reminderTime": 6
+    }
   }
 ]

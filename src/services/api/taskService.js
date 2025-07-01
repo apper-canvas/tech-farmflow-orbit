@@ -33,13 +33,17 @@ const taskService = {
     return { ...newTask };
   },
   
-  async update(id, taskData) {
+async update(id, taskData) {
     await delay(300);
     const index = tasks.findIndex(t => t.Id === id);
     if (index === -1) {
       throw new Error('Task not found');
     }
-    tasks[index] = { ...tasks[index], ...taskData };
+    tasks[index] = { 
+      ...tasks[index], 
+      ...taskData,
+      notificationPreferences: taskData.notificationPreferences || tasks[index].notificationPreferences
+    };
     return { ...tasks[index] };
   },
   
