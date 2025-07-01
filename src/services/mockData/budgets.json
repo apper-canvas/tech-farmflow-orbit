@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "farmId": 1,
+    "period": "monthly",
+    "budgetAmount": 8500,
+    "startDate": "2024-11-01",
+    "category": "total",
+    "projectedYield": 15000,
+    "notes": "Monthly operating budget for harvest season",
+    "createdAt": "2024-10-25T10:00:00.000Z"
+  },
+  {
+    "Id": 2,
+    "farmId": 1,
+    "period": "annual",
+    "budgetAmount": 95000,
+    "startDate": "2024-01-01",
+    "category": "total",
+    "projectedYield": 180000,
+    "notes": "Annual budget for Sunrise Valley Farm operations",
+    "createdAt": "2024-01-15T08:30:00.000Z"
+  },
+  {
+    "Id": 3,
+    "farmId": 2,
+    "period": "monthly",
+    "budgetAmount": 6200,
+    "startDate": "2024-11-01",
+    "category": "total",
+    "projectedYield": 12000,
+    "notes": "Monthly budget for Green Meadows",
+    "createdAt": "2024-10-28T14:15:00.000Z"
+  },
+  {
+    "Id": 4,
+    "farmId": 2,
+    "period": "annual",
+    "budgetAmount": 72000,
+    "startDate": "2024-01-01",
+    "category": "total",
+    "projectedYield": 140000,
+    "notes": "Annual operations budget",
+    "createdAt": "2024-02-03T11:00:00.000Z"
+  },
+  {
+    "Id": 5,
+    "farmId": 3,
+    "period": "monthly",
+    "budgetAmount": 11500,
+    "startDate": "2024-11-01",
+    "category": "total",
+    "projectedYield": 22000,
+    "notes": "Monthly budget for Heritage Fields - peak season",
+    "createdAt": "2024-10-30T09:45:00.000Z"
+  },
+  {
+    "Id": 6,
+    "farmId": 3,
+    "period": "annual",
+    "budgetAmount": 125000,
+    "startDate": "2024-01-01",
+    "category": "total",
+    "projectedYield": 250000,
+    "notes": "Annual budget for largest farm operations",
+    "createdAt": "2024-01-22T15:30:00.000Z"
+  },
+  {
+    "Id": 7,
+    "farmId": 1,
+    "period": "monthly",
+    "budgetAmount": 2500,
+    "startDate": "2024-11-01",
+    "category": "seeds",
+    "projectedYield": null,
+    "notes": "Seeds and planting materials for next season",
+    "createdAt": "2024-10-25T11:20:00.000Z"
+  },
+  {
+    "Id": 8,
+    "farmId": 2,
+    "period": "monthly",
+    "budgetAmount": 1800,
+    "startDate": "2024-11-01",
+    "category": "fertilizer",
+    "projectedYield": null,
+    "notes": "Fertilizer application for winter prep",
+    "createdAt": "2024-10-28T16:00:00.000Z"
+  }
+]

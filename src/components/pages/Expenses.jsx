@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
-import { format } from 'date-fns';
-import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
-import Select from '@/components/atoms/Select';
-import Badge from '@/components/atoms/Badge';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
-import ApperIcon from '@/components/ApperIcon';
-import expenseService from '@/services/api/expenseService';
-import farmService from '@/services/api/farmService';
-
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { format } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Select from "@/components/atoms/Select";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import farmService from "@/services/api/farmService";
+import expenseService from "@/services/api/expenseService";
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
   const [farms, setFarms] = useState([]);
@@ -197,7 +196,7 @@ const Expenses = () => {
     }
     
     return true;
-  });
+});
   
   const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
   
@@ -205,6 +204,11 @@ const Expenses = () => {
     acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
     return acc;
   }, {});
+  
+  // Budget calculations
+  const totalBudget = 50000; // Default budget - should come from settings/config
+  const budgetUtilization = totalBudget > 0 ? (totalExpenses / totalBudget) * 100 : 0;
+  const budgetVariance = budgetUtilization - 100;
   
   useEffect(() => {
     loadData();
@@ -279,27 +283,44 @@ const Expenses = () => {
               <div className="w-12 h-12 bg-gradient-to-br from-secondary/20 to-secondary/10 rounded-lg flex items-center justify-center">
                 <ApperIcon name="TrendingUp" className="w-6 h-6 text-secondary" />
               </div>
+</div>
+          
+          <div className="card-elevated">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Budget Progress</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {budgetUtilization.toFixed(1)}%
+                </p>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                  <div 
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      budgetUtilization > 100 ? 'bg-error' : 
+                      budgetUtilization > 80 ? 'bg-warning' : 'bg-success'
+                    }`}
+                    style={{ width: `${Math.min(budgetUtilization, 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-info/20 to-info/10 rounded-lg flex items-center justify-center">
+                <ApperIcon name="Target" className="w-6 h-6 text-info" />
+              </div>
             </div>
           </div>
           
           <div className="card-elevated">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Top Category</p>
-                <p className="text-sm font-bold text-gray-900">
-                  {Object.keys(expensesByCategory).length > 0 
-                    ? Object.entries(expensesByCategory)
-                        .sort(([,a], [,b]) => b - a)[0][0]
-                        .replace('_', ' ')
-                        .split(' ')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                        .join(' ')
-                    : 'None'
-                  }
+                <p className="text-sm font-medium text-gray-600">Budget Variance</p>
+                <p className={`text-2xl font-bold ${budgetVariance > 0 ? 'text-error' : 'text-success'}`}>
+                  {budgetVariance > 0 ? '+' : ''}{budgetVariance.toFixed(1)}%
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  ${totalBudget.toLocaleString()} budgeted
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-info/20 to-info/10 rounded-lg flex items-center justify-center">
-                <ApperIcon name="BarChart3" className="w-6 h-6 text-info" />
+              <div className={`w-12 h-12 bg-gradient-to-br ${budgetVariance > 0 ? 'from-error/20 to-error/10' : 'from-success/20 to-success/10'} rounded-lg flex items-center justify-center`}>
+                <ApperIcon name={budgetVariance > 0 ? 'TrendingDown' : 'TrendingUp'} className={`w-6 h-6 ${budgetVariance > 0 ? 'text-error' : 'text-success'}`} />
               </div>
             </div>
           </div>
