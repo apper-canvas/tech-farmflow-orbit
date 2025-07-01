@@ -1,0 +1,89 @@
+@import 'react-toastify/dist/ReactToastify.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+  
+  body {
+    @apply font-body text-gray-900 bg-background antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 shadow-card hover:shadow-elevated;
+  }
+  
+  .btn-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 shadow-card hover:shadow-elevated;
+  }
+  
+  .btn-accent {
+    @apply bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 shadow-card hover:shadow-elevated;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-card hover:shadow-elevated transition-all duration-200 p-6 border border-gray-100;
+  }
+  
+  .card-elevated {
+    @apply bg-gradient-to-br from-white to-surface rounded-xl shadow-elevated p-6 border border-gray-200;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-white;
+  }
+  
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:bg-primary/10 text-gray-700 hover:text-primary font-medium;
+  }
+  
+  .sidebar-item.active {
+    @apply bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border-l-4 border-primary;
+  }
+}
+
+/* Toast Customization */
+.Toastify__toast-container {
+  @apply text-sm;
+}
+
+.Toastify__toast {
+  @apply rounded-lg shadow-elevated;
+}
+
+.Toastify__toast--success {
+  @apply bg-success text-white;
+}
+
+.Toastify__toast--error {
+  @apply bg-error text-white;
+}
+
+.Toastify__toast--warning {
+  @apply bg-warning text-white;
+}
+
+/* Skeleton Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.skeleton {
+  animation: shimmer 1.2s ease-in-out infinite;
+  background: linear-gradient(90deg, #f0f0f0 25%, transparent 37%, #f0f0f0 63%);
+  background-size: 400% 100%;
+}

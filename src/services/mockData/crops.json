@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "farmId": 1,
+    "name": "Tomatoes",
+    "variety": "Cherry",
+    "plantingDate": "2024-03-15",
+    "expectedHarvest": "2024-07-15",
+    "location": "North Field",
+    "status": "growing"
+  },
+  {
+    "Id": 2,
+    "farmId": 1,
+    "name": "Corn",
+    "variety": "Sweet Corn",
+    "plantingDate": "2024-04-01",
+    "expectedHarvest": "2024-08-01",
+    "location": "South Field",
+    "status": "germinating"
+  },
+  {
+    "Id": 3,
+    "farmId": 2,
+    "name": "Soybeans",
+    "variety": "Non-GMO",
+    "plantingDate": "2024-03-20",
+    "expectedHarvest": "2024-09-20",
+    "location": "East Plot",
+    "status": "flowering"
+  },
+  {
+    "Id": 4,
+    "farmId": 2,
+    "name": "Wheat",
+    "variety": "Winter Wheat",
+    "plantingDate": "2023-10-15",
+    "expectedHarvest": "2024-06-15",
+    "location": "West Field",
+    "status": "harvesting"
+  },
+  {
+    "Id": 5,
+    "farmId": 3,
+    "name": "Potatoes",
+    "variety": "Russet",
+    "plantingDate": "2024-03-10",
+    "expectedHarvest": "2024-08-10",
+    "location": "Central Field",
+    "status": "growing"
+  }
+]

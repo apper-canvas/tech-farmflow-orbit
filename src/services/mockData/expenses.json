@@ -1,0 +1,56 @@
+[
+  {
+    "Id": 1,
+    "farmId": 1,
+    "category": "seeds",
+    "amount": 125.50,
+    "date": "2024-03-15",
+    "description": "Cherry tomato seeds",
+    "vendor": "Garden Supply Co."
+  },
+  {
+    "Id": 2,
+    "farmId": 1,
+    "category": "fertilizer",
+    "amount": 89.99,
+    "date": "2024-03-20",
+    "description": "Organic nitrogen fertilizer",
+    "vendor": "Farm Supply Store"
+  },
+  {
+    "Id": 3,
+    "farmId": 2,
+    "category": "fuel",
+    "amount": 245.75,
+    "date": "2024-04-01",
+    "description": "Diesel fuel for tractors",
+    "vendor": "Local Gas Station"
+  },
+  {
+    "Id": 4,
+    "farmId": 2,
+    "category": "equipment",
+    "amount": 1250.00,
+    "date": "2024-03-25",
+    "description": "New irrigation pump",
+    "vendor": "Farm Equipment Plus"
+  },
+  {
+    "Id": 5,
+    "farmId": 3,
+    "category": "seeds",
+    "amount": 180.25,
+    "date": "2024-03-10",
+    "description": "Russet potato seed potatoes",
+    "vendor": "Seed Specialists"
+  },
+  {
+    "Id": 6,
+    "farmId": 1,
+    "category": "labor",
+    "amount": 320.00,
+    "date": "2024-04-05",
+    "description": "Seasonal help for planting",
+    "vendor": "Local Farm Workers"
+  }
+]

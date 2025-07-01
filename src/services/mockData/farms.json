@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "name": "Sunrise Valley Farm",
+    "location": "Valley County, CA",
+    "size": 125,
+    "sizeUnit": "acres",
+    "createdAt": "2024-01-15T08:00:00.000Z"
+  },
+  {
+    "Id": 2,
+    "name": "Green Meadows",
+    "location": "Rural Route 5, TX",
+    "size": 85,
+    "sizeUnit": "acres",
+    "createdAt": "2024-02-03T10:30:00.000Z"
+  },
+  {
+    "Id": 3,
+    "name": "Heritage Fields",
+    "location": "Countryside Road, IA",
+    "size": 200,
+    "sizeUnit": "acres",
+    "createdAt": "2024-01-22T14:15:00.000Z"
+  }
+]
