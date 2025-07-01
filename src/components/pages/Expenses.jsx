@@ -280,10 +280,11 @@ const Expenses = () => {
                   ${(totalExpenses / filteredExpenses.length).toLocaleString()}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary/20 to-secondary/10 rounded-lg flex items-center justify-center">
+<div className="w-12 h-12 bg-gradient-to-br from-secondary/20 to-secondary/10 rounded-lg flex items-center justify-center">
                 <ApperIcon name="TrendingUp" className="w-6 h-6 text-secondary" />
               </div>
-</div>
+            </div>
+          </div>
           
           <div className="card-elevated">
             <div className="flex items-center justify-between">
