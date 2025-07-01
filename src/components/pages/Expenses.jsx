@@ -2,6 +2,19 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar, Line, Doughnut } from 'react-chartjs-2';
 import ApperIcon from "@/components/ApperIcon";
 import Badge from "@/components/atoms/Badge";
 import Select from "@/components/atoms/Select";
@@ -12,6 +25,19 @@ import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
 import farmService from "@/services/api/farmService";
 import expenseService from "@/services/api/expenseService";
+import { getExpenseTrendsData, getExpensesByCategoryData, getBudgetProgressData } from "@/utils/calculations";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+);
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
   const [farms, setFarms] = useState([]);
@@ -325,9 +351,160 @@ const Expenses = () => {
               </div>
             </div>
           </div>
-        </div>
+</div>
       )}
       
+      {/* Charts Section */}
+      {filteredExpenses.length > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {/* Expense Trends Chart */}
+          <div className="card-elevated">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Expense Trends</h3>
+              <p className="text-sm text-gray-600">Monthly expense patterns over time</p>
+            </div>
+            <div className="h-64">
+              <Line
+                data={{
+                  labels: getExpenseTrendsData(filteredExpenses).labels,
+                  datasets: [{
+                    label: 'Monthly Expenses',
+                    data: getExpenseTrendsData(filteredExpenses).data,
+                    borderColor: 'rgb(99, 102, 241)',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                  }]
+                }}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false
+                    }
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      ticks: {
+                        callback: function(value) {
+                          return '$' + value.toLocaleString();
+                        }
+                      }
+                    }
+                  }
+                }}
+              />
+            </div>
+          </div>
+          
+          {/* Expenses by Category Chart */}
+          <div className="card-elevated">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Expenses by Category</h3>
+              <p className="text-sm text-gray-600">Breakdown of spending by category</p>
+            </div>
+            <div className="h-64">
+              <Bar
+                data={{
+                  labels: getExpensesByCategoryData(filteredExpenses).labels,
+                  datasets: [{
+                    label: 'Amount Spent',
+                    data: getExpensesByCategoryData(filteredExpenses).data,
+                    backgroundColor: [
+                      'rgba(59, 130, 246, 0.5)',
+                      'rgba(16, 185, 129, 0.5)',
+                      'rgba(245, 158, 11, 0.5)',
+                      'rgba(239, 68, 68, 0.5)',
+                      'rgba(139, 92, 246, 0.5)',
+                      'rgba(236, 72, 153, 0.5)',
+                      'rgba(14, 165, 233, 0.5)',
+                      'rgba(34, 197, 94, 0.5)',
+                      'rgba(168, 85, 247, 0.5)',
+                      'rgba(251, 146, 60, 0.5)'
+                    ],
+                    borderColor: [
+                      'rgba(59, 130, 246, 1)',
+                      'rgba(16, 185, 129, 1)',
+                      'rgba(245, 158, 11, 1)',
+                      'rgba(239, 68, 68, 1)',
+                      'rgba(139, 92, 246, 1)',
+                      'rgba(236, 72, 153, 1)',
+                      'rgba(14, 165, 233, 1)',
+                      'rgba(34, 197, 94, 1)',
+                      'rgba(168, 85, 247, 1)',
+                      'rgba(251, 146, 60, 1)'
+                    ],
+                    borderWidth: 1
+                  }]
+                }}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false
+                    }
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      ticks: {
+                        callback: function(value) {
+                          return '$' + value.toLocaleString();
+                        }
+                      }
+                    }
+                  }
+                }}
+              />
+            </div>
+          </div>
+          
+          {/* Budget Progress Chart */}
+          <div className="card-elevated">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Budget Progress</h3>
+              <p className="text-sm text-gray-600">Current budget utilization</p>
+            </div>
+            <div className="h-64 flex items-center justify-center">
+              <div className="w-48 h-48">
+                <Doughnut
+                  data={{
+                    labels: getBudgetProgressData(totalExpenses, totalBudget).labels,
+                    datasets: [{
+                      data: getBudgetProgressData(totalExpenses, totalBudget).data,
+                      backgroundColor: getBudgetProgressData(totalExpenses, totalBudget).colors,
+                      borderWidth: 0
+                    }]
+                  }}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        position: 'bottom',
+                        labels: {
+                          padding: 20,
+                          usePointStyle: true
+                        }
+                      }
+                    },
+                    cutout: '60%'
+                  }}
+                />
+              </div>
+            </div>
+            <div className="text-center mt-4">
+              <p className="text-2xl font-bold text-gray-900">
+                {budgetUtilization.toFixed(1)}%
+              </p>
+              <p className="text-sm text-gray-600">Budget Used</p>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Form Modal */}
       <AnimatePresence>
         {showForm && (

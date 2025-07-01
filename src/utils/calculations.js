@@ -137,7 +137,91 @@ const getEstimatedPrice = (cropName) => {
     'Soybeans': 13.00, // per bushel
     'Wheat': 7.20, // per bushel
     'Potatoes': 12.00 // per cwt
-  };
+};
   
   return priceMap[cropName] || 5.00;
+};
+
+// Chart data preparation functions
+export const getExpenseTrendsData = (expenses, filters = {}) => {
+  let filteredExpenses = [...expenses];
+  
+  // Apply filters similar to calculateTotalExpenses
+  if (filters.startDate || filters.endDate) {
+    filteredExpenses = filteredExpenses.filter(expense => {
+      const expenseDate = new Date(expense.date);
+      if (filters.startDate && expenseDate < new Date(filters.startDate)) return false;
+      if (filters.endDate && expenseDate > new Date(filters.endDate)) return false;
+      return true;
+    });
+  }
+  
+  if (filters.category) {
+    filteredExpenses = filteredExpenses.filter(expense => expense.category === filters.category);
+  }
+  
+  if (filters.farmId) {
+    filteredExpenses = filteredExpenses.filter(expense => expense.farmId === filters.farmId);
+  }
+  
+  // Group expenses by month
+  const monthlyData = filteredExpenses.reduce((acc, expense) => {
+    const date = new Date(expense.date);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    
+    if (!acc[monthKey]) {
+      acc[monthKey] = 0;
+    }
+    acc[monthKey] += expense.amount;
+    return acc;
+  }, {});
+  
+  // Sort by date and return arrays for chart
+  const sortedMonths = Object.keys(monthlyData).sort();
+  return {
+    labels: sortedMonths.map(month => {
+      const [year, monthNum] = month.split('-');
+      return new Date(year, monthNum - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    }),
+    data: sortedMonths.map(month => monthlyData[month])
+  };
+};
+
+export const getExpensesByCategoryData = (expenses, filters = {}) => {
+  const categoryData = groupExpensesByCategory(expenses.filter(expense => {
+    if (filters.startDate || filters.endDate) {
+      const expenseDate = new Date(expense.date);
+      if (filters.startDate && expenseDate < new Date(filters.startDate)) return false;
+      if (filters.endDate && expenseDate > new Date(filters.endDate)) return false;
+    }
+    if (filters.farmId && expense.farmId !== filters.farmId) return false;
+    return true;
+  }));
+  
+  const categories = Object.keys(categoryData);
+  const amounts = categories.map(category => categoryData[category].total);
+  
+  return {
+    labels: categories.map(cat => cat.replace('_', ' ')),
+    data: amounts
+  };
+};
+
+export const getBudgetProgressData = (totalExpenses, totalBudget) => {
+  const remaining = Math.max(0, totalBudget - totalExpenses);
+  const overBudget = Math.max(0, totalExpenses - totalBudget);
+  
+  if (overBudget > 0) {
+    return {
+      labels: ['Used Budget', 'Over Budget'],
+      data: [totalBudget, overBudget],
+      colors: ['#ef4444', '#dc2626']
+    };
+  }
+  
+  return {
+    labels: ['Used Budget', 'Remaining Budget'],
+    data: [totalExpenses, remaining],
+    colors: ['#3b82f6', '#e5e7eb']
+  };
 };
