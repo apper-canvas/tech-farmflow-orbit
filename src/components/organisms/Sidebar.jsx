@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ApperIcon from '@/components/ApperIcon';
 
-const Sidebar = ({ isOpen, onClose }) => {
+const Sidebar = () => {
   const location = useLocation();
   
   const navigation = [
@@ -14,27 +14,8 @@ const Sidebar = ({ isOpen, onClose }) => {
     { name: 'Expenses', href: '/expenses', icon: 'DollarSign' },
     { name: 'Weather', href: '/weather', icon: 'CloudSun' },
   ];
-  
-  return (
-    <>
-      {/* Mobile Overlay */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={onClose}
-        />
-      )}
-      
-      {/* Sidebar */}
-      <motion.div
-        initial={{ x: -280 }}
-        animate={{ x: isOpen ? 0 : -280 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-        className={`fixed top-0 left-0 z-50 h-full w-72 bg-white shadow-elevated lg:static lg:translate-x-0 lg:shadow-none lg:border-r lg:border-gray-200`}
-      >
+return (
+    <div className="h-full w-72 bg-white border-r border-gray-200">
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center gap-3 px-6 py-6 border-b border-gray-200">
@@ -57,9 +38,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <NavLink
+<NavLink
                     to={item.href}
-                    onClick={onClose}
                     className={({ isActive }) =>
                       `sidebar-item ${isActive ? 'active' : ''}`
                     }
@@ -79,9 +59,8 @@ const Sidebar = ({ isOpen, onClose }) => {
               <span>System Online</span>
             </div>
           </div>
-        </div>
-      </motion.div>
-    </>
+</div>
+    </div>
   );
 };
 
