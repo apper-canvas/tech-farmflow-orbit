@@ -23,13 +23,15 @@ const Layout = ({ children }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  return (
-    <div className="flex h-screen bg-background">
+return (
+    <div className="flex min-h-screen bg-background">
       <AnimatePresence>
-        <Sidebar 
-          isOpen={sidebarOpen} 
-          onClose={() => setSidebarOpen(false)} 
-        />
+        <div className="sticky top-0 h-screen">
+          <Sidebar 
+            isOpen={sidebarOpen} 
+            onClose={() => setSidebarOpen(false)} 
+          />
+        </div>
       </AnimatePresence>
       
       <div className="flex-1 flex flex-col min-w-0">
