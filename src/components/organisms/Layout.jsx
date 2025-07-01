@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '@/components/organisms/Header';
 import Sidebar from '@/components/organisms/Sidebar';
 
 const Layout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1024; // Show sidebar on desktop by default
+    }
+    return false;
+  });
   
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setSidebarOpen(true); // Always show on desktop
+      } else {
+        setSidebarOpen(false); // Hide on mobile unless toggled
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <div className="flex h-screen bg-background">
       <AnimatePresence>
